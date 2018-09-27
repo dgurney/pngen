@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/satori/go.uuid"
 	"image"
 	"image/color"
 	"image/png"
@@ -12,6 +11,8 @@ import (
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/satori/go.uuid"
 )
 
 const version = "1.0.2"
@@ -34,6 +35,7 @@ func genImg(ch chan *image.NRGBA, width, height int) {
 	}
 	ch <- randomImg
 }
+
 func saveImg(img *image.NRGBA, width, height, amount int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	id, err := uuid.NewV4()
@@ -49,6 +51,7 @@ func saveImg(img *image.NRGBA, width, height, amount int, wg *sync.WaitGroup) {
 	}
 	file.Close()
 }
+
 func main() {
 	height := flag.Int("h", 500, "Height of image(s)")
 	width := flag.Int("w", 500, "Width of image(s)")
