@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/satori/go.uuid"
 	"image"
 	"image/color"
 	"image/png"
@@ -31,25 +32,29 @@ func genImg(ch chan *image.NRGBA, width, height int) {
 	}
 	ch <- randomImg
 }
-func saveImg(img *image.NRGBA, width, height int, wg *sync.WaitGroup) {
+func saveImg(img *image.NRGBA, width, height, amount int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	file, err := os.Create("random_" + strconv.Itoa(width) + "x" + strconv.Itoa(height) + "_" + strconv.Itoa(rnd.Intn(9223372036854775807)) + ".png")
-	defer file.Close()
+	id, err := uuid.NewV4()
+	if err != nil {
+		panic(err)
+	}
+	file, err := os.Create("random_" + strconv.Itoa(width) + "x" + strconv.Itoa(height) + "_" + id.String() + ".png")
 	if err != nil {
 		panic(err)
 	}
 	if err := png.Encode(file, img); err != nil {
 		panic(err)
 	}
+	file.Close()
 }
 func main() {
-	height := flag.Int("h", 500, "Height of image")
-	width := flag.Int("w", 500, "Width of image")
-	amount := flag.Int("a", 1, "Amount of images to generate")
+	height := flag.Int("h", 500, "Height of image(s)")
+	width := flag.Int("w", 500, "Width of image(s)")
+	amount := flag.Int("a", 1, "Amount of images to generate.")
 	flag.Parse()
 	switch {
 	case *amount > 1:
-		fmt.Printf("Generating %d PNG files...\n", *amount)
+		fmt.Printf("Generating %d %dx%d PNG files...\n", *amount, *width, *height)
 	default:
 		fmt.Println("Generating a single PNG file...")
 	}
@@ -59,7 +64,7 @@ func main() {
 	for i := 0; i < *amount; i++ {
 		wg.Add(1)
 		go genImg(ch, *width, *height)
-		go saveImg(<-ch, *width, *height, &wg)
+		go saveImg(<-ch, *width, *height, *amount, &wg)
 	}
 	wg.Wait()
 }
