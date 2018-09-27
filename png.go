@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-const version = "1.0.1"
+const version = "1.0.2"
 
 var t = time.Now().UnixNano()
 var rndseed = rand.NewSource(t)
@@ -72,7 +72,7 @@ func main() {
 	case *amount > 1:
 		fmt.Printf("Generating %d %dx%d PNG files...\n", *amount, *width, *height)
 	default:
-		fmt.Println("Generating a single PNG file...")
+		fmt.Printf("Generating a single %dx%d PNG file...\n", *width, *height)
 	}
 	ch := make(chan *image.NRGBA)
 	var wg sync.WaitGroup
