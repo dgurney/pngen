@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/satori/go.uuid"
 	"image"
 	"image/color"
 	"image/png"
@@ -11,8 +12,6 @@ import (
 	"strconv"
 	"sync"
 	"time"
-
-	"github.com/satori/go.uuid"
 )
 
 const version = "1.0.2"
