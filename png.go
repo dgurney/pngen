@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-const version = "1.0.0"
+const version = "1.0.1"
 
 var t = time.Now().UnixNano()
 var rndseed = rand.NewSource(t)
@@ -55,6 +55,15 @@ func main() {
 	amount := flag.Int("a", 1, "Amount of images to generate.")
 	ver := flag.Bool("v", false, "Show version number and exit.")
 	flag.Parse()
+	switch {
+	case *height == 0 && *width == 0:
+		*width = 500
+		*height = 500
+	case *width == 0:
+		*width = 500
+	case *height == 0:
+		*height = 500
+	}
 	if *ver {
 		fmt.Printf("Random PNG generator v%s by Daniel Gurney\n", version)
 		return
