@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-const version = "1.0.3"
+const version = "1.0.4"
 
 var t = time.Now().UnixNano()
 var rndseed = rand.NewSource(t)
