@@ -70,6 +70,9 @@ func main() {
 	case *height < 1:
 		*height = 500
 	}
+	if *amount < 1 {
+		*amount = 1
+	}
 	if *ver {
 		fmt.Printf("Random PNG generator v%s by Daniel Gurney\n", version)
 		return
