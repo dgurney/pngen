@@ -58,6 +58,10 @@ func main() {
 	maxcolors := flag.Int("r", 255, "The highest RGBA value that can be generated. Maximum is 255.")
 	ver := flag.Bool("v", false, "Show version number and exit.")
 	flag.Parse()
+	if *ver {
+		fmt.Printf("Random PNG generator v%s by Daniel Gurney\n", version)
+		return
+	}
 	if *maxcolors < 1 || *maxcolors > 255 {
 		*maxcolors = 255
 	}
@@ -78,10 +82,6 @@ func main() {
 		fmt.Printf("Generating %d %dx%d PNG files...\n", *amount, *width, *height)
 	default:
 		fmt.Printf("Generating a single %dx%d PNG file...\n", *width, *height)
-	}
-	if *ver {
-		fmt.Printf("Random PNG generator v%s by Daniel Gurney\n", version)
-		return
 	}
 	ch := make(chan *image.NRGBA)
 	var wg sync.WaitGroup
