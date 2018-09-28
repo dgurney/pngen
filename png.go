@@ -82,7 +82,7 @@ func main() {
 	}
 	ch := make(chan *image.NRGBA)
 	var wg sync.WaitGroup
-	// Concurrency decreases the time required by approximately 63%!
+	// Concurrency reduces the time required by approximately 63%!
 	for i := 0; i < *amount; i++ {
 		wg.Add(1)
 		go genImg(ch, *width, *height, *maxcolors)
