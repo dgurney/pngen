@@ -58,16 +58,16 @@ func main() {
 	maxcolors := flag.Int("r", 255, "The highest RGBA value that can be generated. Maximum is 255.")
 	ver := flag.Bool("v", false, "Show version number and exit.")
 	flag.Parse()
-	if *maxcolors == 0 || *maxcolors > 255 {
+	if *maxcolors < 1 || *maxcolors > 255 {
 		*maxcolors = 255
 	}
 	switch {
-	case *height == 0 && *width == 0:
+	case *height < 1 && *width < 1:
 		*width = 500
 		*height = 500
-	case *width == 0:
+	case *width < 1:
 		*width = 500
-	case *height == 0:
+	case *height < 1:
 		*height = 500
 	}
 	if *ver {
