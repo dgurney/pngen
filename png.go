@@ -73,15 +73,15 @@ func main() {
 	if *amount < 1 {
 		*amount = 1
 	}
-	if *ver {
-		fmt.Printf("Random PNG generator v%s by Daniel Gurney\n", version)
-		return
-	}
 	switch {
 	case *amount > 1:
 		fmt.Printf("Generating %d %dx%d PNG files...\n", *amount, *width, *height)
 	default:
 		fmt.Printf("Generating a single %dx%d PNG file...\n", *width, *height)
+	}
+	if *ver {
+		fmt.Printf("Random PNG generator v%s by Daniel Gurney\n", version)
+		return
 	}
 	ch := make(chan *image.NRGBA)
 	var wg sync.WaitGroup
