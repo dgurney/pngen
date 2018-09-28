@@ -42,13 +42,13 @@ func saveImg(img *image.NRGBA, width, height, amount int, wg *sync.WaitGroup) {
 		panic(err)
 	}
 	file, err := os.Create("random_" + strconv.Itoa(width) + "x" + strconv.Itoa(height) + "_" + id.String() + ".png")
+	defer file.Close()
 	if err != nil {
 		panic(err)
 	}
 	if err := png.Encode(file, img); err != nil {
 		panic(err)
 	}
-	file.Close()
 }
 
 func main() {
