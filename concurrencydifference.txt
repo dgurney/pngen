@@ -1,4 +1,4 @@
-Earlier development stage:
+Earlier development version:
 [dgurney@desktop temp]$ time png_noc -n 100 -w 1920 -h 1080
 
 real	0m49.048s
