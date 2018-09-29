@@ -46,7 +46,10 @@ func saveImg(img *image.NRGBA, width, height, amount int, wg *sync.WaitGroup) {
 	if err != nil {
 		panic(err)
 	}
-	if err := png.Encode(file, img); err != nil {
+	enc := &png.Encoder{
+		CompressionLevel: png.NoCompression,
+	}
+	if err := enc.Encode(file, img); err != nil {
 		panic(err)
 	}
 }
