@@ -42,10 +42,10 @@ func saveImg(img *image.NRGBA, width, height, amount int, wg *sync.WaitGroup) {
 		panic(err)
 	}
 	file, err := os.Create("random_" + strconv.Itoa(width) + "x" + strconv.Itoa(height) + "_" + id.String() + ".png")
-	defer file.Close()
 	if err != nil {
 		panic(err)
 	}
+	defer file.Close()
 	enc := &png.Encoder{
 		CompressionLevel: png.NoCompression,
 	}
