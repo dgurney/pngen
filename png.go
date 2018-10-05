@@ -20,16 +20,26 @@ var t = time.Now().UnixNano()
 var rndseed = rand.NewSource(t)
 var rnd = rand.New(rndseed)
 
-func genImg(ch chan *image.NRGBA, width, height, mc int) {
+func genImg(ch chan *image.NRGBA, width, height, mc int, allowalpha bool) {
 	randomImg := image.NewNRGBA(image.Rect(0, 0, width, height))
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
-			randomImg.Set(x, y, color.NRGBA{
-				R: uint8(rnd.Intn(mc)),
-				G: uint8(rnd.Intn(mc)),
-				B: uint8(rnd.Intn(mc)),
-				A: uint8(255),
-			})
+			switch {
+			default:
+				randomImg.Set(x, y, color.NRGBA{
+					R: uint8(rnd.Intn(mc)),
+					G: uint8(rnd.Intn(mc)),
+					B: uint8(rnd.Intn(mc)),
+					A: uint8(255),
+				})
+			case allowalpha:
+				randomImg.Set(x, y, color.NRGBA{
+					R: uint8(rnd.Intn(mc)),
+					G: uint8(rnd.Intn(mc)),
+					B: uint8(rnd.Intn(mc)),
+					A: uint8(rnd.Intn(255)),
+				})
+			}
 		}
 	}
 	ch <- randomImg
@@ -59,6 +69,7 @@ func main() {
 	width := flag.Int("w", 500, "Width of image(s).")
 	amount := flag.Int("a", 1, "Amount of images to generate.")
 	maxcolors := flag.Int("r", 255, "The highest RGBA value that can be generated. Maximum is 255.")
+	allowalpha := flag.Bool("l", false, "Randomize the alpha value in addition to RGB values. The upper limit is 255, as usual.")
 	ver := flag.Bool("v", false, "Show version number and exit.")
 	flag.Parse()
 	if *ver {
@@ -91,7 +102,7 @@ func main() {
 	// Concurrency reduces the time required by approximately 63%!
 	for i := 0; i < *amount; i++ {
 		wg.Add(1)
-		go genImg(ch, *width, *height, *maxcolors)
+		go genImg(ch, *width, *height, *maxcolors, *allowalpha)
 		go saveImg(<-ch, *width, *height, *amount, &wg)
 	}
 	wg.Wait()
