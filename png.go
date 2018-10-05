@@ -73,7 +73,8 @@ func main() {
 	ver := flag.Bool("v", false, "Show version number and exit.")
 	flag.Parse()
 	if *ver {
-		fmt.Printf("Random PNG generator v%s by Daniel Gurney\n", version)
+		fmt.Printf("Random PNG generator v%s by Daniel Gurney\nArguments:\n", version)
+		flag.PrintDefaults()
 		return
 	}
 	if *maxcolors < 1 || *maxcolors > 255 {
