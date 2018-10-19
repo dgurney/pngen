@@ -16,9 +16,7 @@ import (
 
 const version = "1.0.6"
 
-var t = time.Now().UnixNano()
-var rndseed = rand.NewSource(t)
-var rnd = rand.New(rndseed)
+var rnd = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func genImg(ch chan *image.NRGBA, width, height, mc int, allowalpha bool) {
 	randomImg := image.NewNRGBA(image.Rect(0, 0, width, height))
