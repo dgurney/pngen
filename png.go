@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/satori/go.uuid"
 	"image"
 	"image/color"
 	"image/png"
@@ -12,6 +11,8 @@ import (
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 const version = "1.0.6"
@@ -45,10 +46,8 @@ func genImg(ch chan *image.NRGBA, width, height, mc int, allowalpha bool) {
 
 func saveImg(img *image.NRGBA, width, height, amount int, wg *sync.WaitGroup) {
 	defer wg.Done()
-	id, err := uuid.NewV4()
-	if err != nil {
-		panic(err)
-	}
+	id := uuid.New()
+
 	file, err := os.Create("random_" + strconv.Itoa(width) + "x" + strconv.Itoa(height) + "_" + id.String() + ".png")
 	if err != nil {
 		panic(err)
