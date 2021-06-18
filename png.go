@@ -19,8 +19,6 @@ const version = "1.0.7"
 
 var rnd = rand.New(rand.NewSource(time.Now().UnixNano()))
 
-func generateQuadrant()
-
 func genImg(ch chan *image.NRGBA, width, height, mc int, allowalpha bool) {
 	randomImg := image.NewNRGBA(image.Rect(0, 0, width, height))
 	var alpha uint8 = 255
