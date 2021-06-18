@@ -19,26 +19,22 @@ const version = "1.0.7"
 
 var rnd = rand.New(rand.NewSource(time.Now().UnixNano()))
 
+func generateQuadrant()
+
 func genImg(ch chan *image.NRGBA, width, height, mc int, allowalpha bool) {
 	randomImg := image.NewNRGBA(image.Rect(0, 0, width, height))
+	var alpha uint8 = 255
+	if allowalpha {
+		alpha = uint8(rnd.Intn(255))
+	}
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
-			switch {
-			default:
-				randomImg.Set(x, y, color.NRGBA{
-					R: uint8(rnd.Intn(mc)),
-					G: uint8(rnd.Intn(mc)),
-					B: uint8(rnd.Intn(mc)),
-					A: uint8(255),
-				})
-			case allowalpha:
-				randomImg.Set(x, y, color.NRGBA{
-					R: uint8(rnd.Intn(mc)),
-					G: uint8(rnd.Intn(mc)),
-					B: uint8(rnd.Intn(mc)),
-					A: uint8(rnd.Intn(255)),
-				})
-			}
+			randomImg.Set(x, y, color.NRGBA{
+				R: uint8(rnd.Intn(mc)),
+				G: uint8(rnd.Intn(mc)),
+				B: uint8(rnd.Intn(mc)),
+				A: alpha,
+			})
 		}
 	}
 	ch <- randomImg
