@@ -15,7 +15,7 @@ import (
 	"github.com/google/uuid"
 )
 
-const version = "1.0.6"
+const version = "1.0.7"
 
 var rnd = rand.New(rand.NewSource(time.Now().UnixNano()))
 
@@ -97,7 +97,6 @@ func main() {
 	}
 	ch := make(chan *image.NRGBA)
 	var wg sync.WaitGroup
-	// Concurrency reduces the time required by approximately 63%!
 	for i := 0; i < *amount; i++ {
 		wg.Add(1)
 		go genImg(ch, *width, *height, *maxcolors, *allowalpha)
